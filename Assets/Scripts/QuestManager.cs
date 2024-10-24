@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+
+
 
 public class QuestManager : MonoBehaviour
 {
@@ -29,6 +32,8 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    public List<QuestDataSO> Quests;
+
     // [구현사항 3] 인스턴스 검사 로직
     private void Awake()
     {
@@ -41,6 +46,33 @@ public class QuestManager : MonoBehaviour
         else if ( instance != this ) 
         {
             Destroy(gameObject);          
+        }
+    }
+
+    private void Start()
+    {
+        CreateQuests();
+    }
+
+    private void CreateQuests()
+    {
+        for(int i = 0; i < Quests.Count; i++)
+        {
+            QuestDataSO quest = Quests[i];
+            string questInfo = $"Quest {i + 1} - {quest.QuestName} (최소 레벨 {quest.QuestRequiredLevel})";
+
+            // MonsterQuestDataSO의 경우
+            if (quest is MonsterQuestDataSO monsterQuest)
+            {
+                questInfo += $"\n{monsterQuest.monsterKillCount}마리 소탕";
+            }
+            // EncounterQuestDataSO의 경우
+            else if (quest is EncounterQuestDataSO encounterQuest)
+            {
+                questInfo += $"\n제한시간 {encounterQuest.timeLimit}분 내에 완료하기";
+            }
+
+            Debug.Log(questInfo);
         }
     }
 }

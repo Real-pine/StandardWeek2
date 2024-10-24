@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
+    
     public GameObject arrowPrefab;
     public GameObject monsterPrefab;
     public int poolSize = 300;
@@ -19,6 +20,11 @@ public class ObjectPool : MonoBehaviour
     {
         CreatePool("Arrow", arrowPrefab);
         CreatePool("Monster",  monsterPrefab);
+    }
+
+    private void Update()
+    {
+        
     }
 
     // 풀 생성 메서드
@@ -61,8 +67,8 @@ public class ObjectPool : MonoBehaviour
             pool.Add(newObj);
             return newObj;
         }
-        
-        return null; // 키값이 잘못 되었을 경우 반환
+        // 키값이 잘못 되었을 경우 반환
+        return null; 
     }
 
     public void Release(string key, GameObject obj)
