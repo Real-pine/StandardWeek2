@@ -24,7 +24,23 @@ public class ObjectPool : MonoBehaviour
 
     private void Update()
     {
-        
+        if(Input.GetMouseButtonDown(0))
+        {
+            GameObject arrow = Get("Arrow");
+            if(arrow != null)
+            {
+                StartCoroutine(ReleaseAfterDelay("Arrow", arrow, 2f));
+            }
+        }
+
+        if(Input.GetMouseButtonDown(1))
+        {
+            GameObject monster = Get("Monster");
+            if(monster != null)
+            {
+                StartCoroutine(ReleaseAfterDelay("Monster", monster, 2f));
+            }
+        }
     }
 
     // 풀 생성 메서드
@@ -78,5 +94,11 @@ public class ObjectPool : MonoBehaviour
         {
             obj.SetActive(false);
         }
+    }
+
+    private IEnumerator ReleaseAfterDelay(string key, GameObject obj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Release(key, obj);
     }
 }
